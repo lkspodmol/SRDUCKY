@@ -1,5 +1,6 @@
 # SRDUCKY
-Slow Rubber Ducky
+Slow Rubber Ducky Script
+
 Hello!
 
 Ive created a Rubber ducky that slows the computer (potentionally crashes, happens unusually).
