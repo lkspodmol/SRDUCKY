@@ -3,6 +3,7 @@ Slow Rubber Ducky
 Hello!
 
 Ive created a Rubber ducky that slows the computer (potentionally crashes, happens unusually).
+
 I take NO responsibility for your actions with this script, use it only with permissions that you are given.
 
 This script works only on Windows 10 and 11.
